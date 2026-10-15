@@ -33,12 +33,13 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.120.2",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.tnt": {}
       }
     },
     "contentDensities": {
@@ -49,7 +50,8 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "fr.acollet.flightsdashboard.i18n.i18n"
+          "bundleName": "fr.acollet.flightsdashboard.i18n.i18n",
+          "supportedLocales": ["", "fr"]
         }
       }
     },

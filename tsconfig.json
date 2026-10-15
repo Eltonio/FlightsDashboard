@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "types": ["@sapui5/types"],
     "target": "es2022",
     "module": "es2022",
     "skipLibCheck": true,
     "allowJs": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "rootDir": "./webapp",
     "outDir": "./dist",
-    "baseUrl": "./",
     "paths": {
       "fr/acollet/flightsdashboard/*": [
         "./webapp/*"

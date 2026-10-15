@@ -3,9 +3,9 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     displayBlock="true">
-    <Page id="bookingsPage" title="Bookings" titleAlignment="Center">
+    
+    <Page id="bookingsPage" title="{i18n>navBookings}" titleAlignment="Auto">
         <content>
-            <!-- Le contenu viendra demain -->
         </content>
     </Page>
 </mvc:View>

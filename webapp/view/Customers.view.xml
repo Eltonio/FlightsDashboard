@@ -3,7 +3,8 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     displayBlock="true">
-    <Page id="customersPage" title="Customers" titleAlignment="Center">
+    
+    <Page id="customersPage" title="{i18n>navCustomers}" titleAlignment="Auto">
         <content>
         </content>
     </Page>

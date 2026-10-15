@@ -1,7 +1,48 @@
 <mvc:View controllerName="fr.acollet.flightsdashboard.controller.App"
     displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
     xmlns="sap.m">
-    <App id="app">
-    </App>
+
+    <tnt:ToolPage id="nav">
+
+        <!-- 1. L'en-tête (Header) -->
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Button id="sideNavigationToggleButton"
+                    icon="sap-icon://menu2"
+                    type="Transparent"
+                    press=".onSideNavButtonPressed"
+                    tooltip="{i18n>collpaseMenuButtonText}"/> 
+
+                <Title text="{i18n>appTitle}" level="H1" />
+                <ToolbarSpacer />
+                <Avatar displaySize="XS" />
+            </tnt:ToolHeader>
+        </tnt:header>
+
+        <!-- 2. Le menu latéral (Sidebar) -->
+		<tnt:sideContent>
+			<tnt:SideNavigation
+				expanded="true"
+				selectedKey="{sideNav>/selectedKey}">
+				<tnt:NavigationList
+					items="{path: 'sideNav>/items'}">
+					<tnt:NavigationListItem
+						text="{sideNav>title}"
+						icon="{sideNav>icon}"
+						key="{sideNav>key}"
+						href="#/{sideNav>uri}">
+					</tnt:NavigationListItem>
+				</tnt:NavigationList>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+
+        <!-- 3. Le contenu central (Main) -->
+        <tnt:mainContents>
+            <App id="app" />
+        </tnt:mainContents>
+
+    </tnt:ToolPage>
+
 </mvc:View>
