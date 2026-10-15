@@ -75,17 +75,33 @@
       "routes": [
         {
           "name": "RouteDashboard",
-          "pattern": ":?query:",
-          "target": [
-            "TargetDashboard"
-          ]
+          "pattern": "",
+          "target": "TargetDashboard"
+        },
+        {
+          "name": "customers",
+          "pattern": "customers",
+          "target": "TargetCustomers"
+        },
+        {
+          "name": "bookings",
+          "pattern": "bookings",
+          "target": "TargetBookings"
         }
       ],
       "targets": {
         "TargetDashboard": {
           "id": "Dashboard",
           "name": "Dashboard"
-        }
+        }, 
+        "TargetCustomers": {
+            "id": "Customers",
+            "name": "Customers"
+          },
+        "TargetBookings": {
+            "id": "Bookings",
+            "name": "Bookings"
+          }
       }
     },
     "rootView": {

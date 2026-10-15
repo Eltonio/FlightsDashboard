@@ -1,0 +1,11 @@
+<mvc:View
+    controllerName="fr.acollet.flightsdashboard.controller.Bookings"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+    <Page id="bookingsPage" title="Bookings" titleAlignment="Center">
+        <content>
+            <!-- Le contenu viendra demain -->
+        </content>
+    </Page>
+</mvc:View>

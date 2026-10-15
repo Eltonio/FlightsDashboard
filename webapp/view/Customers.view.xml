@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="fr.acollet.flightsdashboard.controller.Customers"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+    <Page id="customersPage" title="Customers" titleAlignment="Center">
+        <content>
+        </content>
+    </Page>
+</mvc:View>
