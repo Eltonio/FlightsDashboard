@@ -134,7 +134,7 @@
                             press=".onBookingPress"
                         >
                             <cells>
-                                <ObjectIdentifier title="{ConnectionNumber}" />
+                                <ObjectIdentifier title="{BookingNumber}" />
                                 <ObjectIdentifier 
                                     title="{_Customer/CustomerName}" 
                                     titleActive="true" 

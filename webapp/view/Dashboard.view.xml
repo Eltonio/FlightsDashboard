@@ -1,9 +1,90 @@
-<mvc:View controllerName="fr.acollet.flightsdashboard.controller.Dashboard"
+<mvc:View
+    controllerName="fr.acollet.flightsdashboard.controller.Dashboard"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:cssgrid="sap.ui.layout.cssgrid"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    displayBlock="true">
 
-    <Page id="dashboardPage" title="{i18n>navDashboard}" titleAlignment="Auto">
+    <Page title="{i18n>navDashboard}" class="sapUiResponsiveContentPadding">
         <content>
+            <VBox class="sapUiSmallMargin">
+
+                <HBox wrap="Wrap" class="sapUiSmallMarginBottom" items="{view>/tiles}">                   
+                    <GenericTile header="{view>title}" subheader="{view>subtitle}" class="sapUiTinyMarginEnd sapUiSmallMarginBottom">
+                        <TileContent>
+                            <NumericContent value="{view>value}" icon="{view>icon}" />
+                        </TileContent>
+                    </GenericTile>
+                </HBox>
+
+                <cssgrid:CSSGrid gridTemplateColumns="repeat(auto-fit, minmax(400px, 1fr))">
+                    
+                    <Panel class="sapUiSmallMarginBottom sapUiSmallMarginEnd">
+
+                        <headerToolbar>
+                            <Toolbar height="4rem">
+                                <core:Icon src="sap-icon://globe" size="1.5rem" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" />
+                                <VBox>
+                                    <Title text="{i18n>chart1}" level="H3" />
+                                    <Text text="{i18n>chart1sub}" />
+                                </VBox>
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+                            <viz:VizFrame id="chartCountry" vizType="donut" width="100%" height="300px"
+                                vizProperties="{
+                                    plotArea: {
+                                        dataLabel: { visible: true }
+                                    },
+                                    title: { visible: false }
+                                }">
+                                
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset data="{
+                                        path: '/UX_Customer',
+                                        parameters: {
+                                            $apply: 'groupby((Country),aggregate($count as Count))'
+                                        }
+                                    }">
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition name="Country" value="{Country}" />
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition name="Customers" value="{Count}" />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem uid="size" type="Measure" values="Customers" />
+                                    <viz.feeds:FeedItem uid="color" type="Dimension" values="Country" />
+                                </viz:feeds>
+
+                            </viz:VizFrame>
+                        </content>
+                    </Panel>
+
+                    <Panel headerText="{i18n>chart2}" class="sapUiSmallMarginBottom sapUiSmallMarginEnd">
+                        <viz:VizFrame id="chartCustomer" vizType="stacked_bar" width="100%" height="300px" />
+                    </Panel>
+
+                    <Panel headerText="{i18n>chart3}" class="sapUiSmallMarginBottom sapUiSmallMarginEnd">
+                        <viz:VizFrame id="chartMonth" vizType="line" width="100%" height="300px" />
+                    </Panel>
+
+                    <Panel headerText="{i18n>chart4}" class="sapUiSmallMarginBottom sapUiSmallMarginEnd">
+                        <viz:VizFrame id="chartAirline" vizType="stacked_column" width="100%" height="300px" />
+                    </Panel>
+
+                </cssgrid:CSSGrid>
+
+            </VBox>
         </content>
     </Page>
 </mvc:View>
