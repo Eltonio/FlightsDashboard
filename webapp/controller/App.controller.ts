@@ -47,21 +47,5 @@ export default class App extends Controller {
         const oToolPage = oView.byId("nav")
 
         oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
-
-
     }
-
-    /**onSideNavButtonPress: function() {
-			var oToolPage = this.byId("app");
-			var bSideExpanded = oToolPage.getSideExpanded();
-			this._setToggleButtonTooltip(bSideExpanded);
-			oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
-		},
-
-		_setToggleButtonTooltip : function(bSideExpanded) {
-			var oToggleButton = this.byId('sideNavigationToggleButton');
-			this.getBundleText(bSideExpanded ? "expandMenuButtonText" : "collpaseMenuButtonText").then(function(sTooltipText){
-				oToggleButton.setTooltip(sTooltipText);
-			});
-		},*/
 }

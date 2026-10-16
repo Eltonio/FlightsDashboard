@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["@sapui5/types"],
     "target": "es2022",
     "module": "es2022",
     "skipLibCheck": true,
