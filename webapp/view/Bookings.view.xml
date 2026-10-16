@@ -1,11 +1,170 @@
 <mvc:View
     controllerName="fr.acollet.flightsdashboard.controller.Bookings"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    displayBlock="true">
-    
-    <Page id="bookingsPage" title="{i18n>navBookings}" titleAlignment="Auto">
-        <content>
-        </content>
-    </Page>
+    displayBlock="true"
+    core:require="{formatter: 'fr/acollet/flightsdashboard/model/formatter'}"
+>
+
+<f:DynamicPage id="bookingsDynamicPage" headerExpanded="true" toggleHeaderOnTitleClick="true">
+        
+        <!-- 1. LE TITRE FIXE -->
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="{i18n>navBookings}" />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <!-- 2. LA ZONE FILTRES -->
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+
+                <HBox alignItems="End" class="sapUiSmallMarginBottom">
+                    
+                    <!-- 1. Filtre Airline  -->
+                    <VBox class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>airlineFilter}" />
+                        <ComboBox id="filterAirline" width="200px"
+                            items="{ path: '/UX_Booking',  
+                            parameters: {
+                                $apply: 'groupby((AirlineID))'
+                            },templateShareable: false}" >
+                            <core:Item
+                                key="{AirlineID}"
+                                text="{AirlineID}" />
+                        </ComboBox>
+                    </VBox>                    
+
+                    <!-- 2. Filtre Class -->
+                    <VBox class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>classFilter}" />
+                        <Select id="filterClass" width="200px" selectedKey="ALL" items="{view>/classes}">
+                            <core:Item key="{view>key}" text="{view>title}" />
+                        </Select>
+                    </VBox>
+
+                    <!-- 3. Filtre Date -->
+                    <VBox class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>dateFilter}" />
+                        <DateRangeSelection id="filterDate" width="250px" />
+                    </VBox>
+
+                    <!-- 4. Filtre Status  -->
+                    <VBox class="sapUiLargeMarginEnd">
+                        <Label text="{i18n>statusFilter}" />
+                        <SegmentedButton id="filterStatus" selectedKey="all" items="{view>/status}">
+                            <items>
+                                <SegmentedButtonItem key="{view>key}" text="{view>title}" width="100px" />
+                            </items>
+                        </SegmentedButton>
+                    </VBox>
+
+                    <!-- 5. Boutons -->
+                    <HBox>
+                        <Button text="{i18n>goButton}" type="Emphasized" press=".onSearchBookings" class="sapUiTinyMarginEnd" />
+                        <Button text="{i18n>resetButton}" type="Transparent" press=".onResetFilters" />
+                    </HBox>
+                </HBox>                
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <!-- 3. Le TABLEAU -->
+        <f:content>
+            <Panel>
+                <Table
+                    id="bookingsTable"
+                    growing="true"
+                    growingThreshold="20"
+                    width="auto"
+                    mode="SingleSelectMaster"
+                    updateFinished=".onTableUpdateFinished"
+                    items="{path:'/UX_Booking'}"
+                >
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{i18n>navBookings} ({view>/count})" />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>bookingNumLabel}" />
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>bookingCustomer}" />
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>airlineLabel}" />
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>flightDateLabel}" />
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>classLabel}" />
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>bookingAmountLabel}" />
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Text text="{i18n>bookingStatusLabel}" />
+                            </header>
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem
+                            type="Navigation"
+                            press=".onBookingPress"
+                        >
+                            <cells>
+                                <ObjectIdentifier title="{ConnectionNumber}" />
+                                <ObjectIdentifier 
+                                    title="{_Customer/CustomerName}" 
+                                    titleActive="true" 
+                                    titlePress=".onCustomerPress" 
+                                />
+                                <Text text="{AirlineID}" />
+                                <ObjectIdentifier
+                                    title="{ path: 'FlightDate',
+                                                       type: 'sap.ui.model.type.Date',
+                                                       formatOptions: {source: {pattern: 'yyyy-MM-dd'}, style: 'medium'} }"
+                                />
+                                <Text text="{ path: 'Class', formatter: 'formatter.classText' }" />
+                                <ObjectNumber
+                                    number="{
+                                        parts: [ {path: 'ForeignCurrencyPayment'}, {path: 'ForeignCurrency'} ],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: {showMeasure: false}
+                                    }"
+                                    unit="{ForeignCurrency}"
+                                />
+                                <ObjectStatus
+                                    icon="{= ${IsCancelled} === 'X' ? 'sap-icon://cancel' : 'sap-icon://accept' }"
+                                    text="{= ${IsCancelled} === 'X' ? ${i18n>cancelledTooltip} : ${i18n>notCancelledTooltip} }"
+                                    state="{= ${IsCancelled} === 'X' ? 'Error' : 'Success' }"
+                                />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Panel>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>
